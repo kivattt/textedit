@@ -30,8 +30,13 @@ public:
             doHighlighting(openFileBuffer, openFilePath.baseName);
         } else {
             openFileBuffer.length = 0;
+        }
+
+        if(openFileBuffer.length == 0) {
             openFileBuffer ~= Row("");
         }
+
+        assert(openFileBuffer.length > 0, "Empty file buffer");
     }
 
     void updateCursorPos(int x, int y) {
