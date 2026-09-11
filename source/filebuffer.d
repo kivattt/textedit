@@ -240,6 +240,16 @@ public:
             openFileBuffer[currLine].insert(cast(char)c, currCol);
             updateCursorPos(1, 0);
             doHighlighting(openFileBuffer, openFilePath.baseName);
+        } else if(c == EditorKey.TAB) {
+            dirtyFlag = true;
+            // HACK: Adds 4 spaces
+            openFileBuffer[currLine].insert(' ', currCol);
+            openFileBuffer[currLine].insert(' ', currCol);
+            openFileBuffer[currLine].insert(' ', currCol);
+            openFileBuffer[currLine].insert(' ', currCol);
+
+            updateCursorPos(4, 0);
+            doHighlighting(openFileBuffer, openFilePath.baseName);
         } else if(c == EditorKey.BACKSPACE) {
             dirtyFlag = true;
             if(currCol>0) {
