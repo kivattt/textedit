@@ -15,6 +15,8 @@ enum EditorKey : int
     END,
     CTRL_HOME,
     CTRL_END,
+    PAGE_UP,
+    PAGE_DOWN,
 
     ARROW_LEFT,
     ARROW_RIGHT,

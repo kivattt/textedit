@@ -264,16 +264,32 @@ public:
                 seekFilePos(currLine, oldlen);
             }
             doHighlighting(openFileBuffer, openFilePath.baseName);
-        } else if (c == EditorKey.CTRL_HOME) {
+        } else if(c == EditorKey.CTRL_HOME) {
             seekFilePos(0, 0);
-        } else if (c == EditorKey.CTRL_END) {
+        } else if(c == EditorKey.CTRL_END) {
             auto lastLine = openFileBuffer.length;
             auto lastLineLength = openFileBuffer[lastLine-1].length;
             seekFilePos(lastLine, lastLineLength);
-        } else if (c == EditorKey.HOME) {
+        } else if(c == EditorKey.HOME) {
             seekFilePos(currLine, 0);
-        } else if (c == EditorKey.END) {
+        } else if(c == EditorKey.END) {
             seekFilePos(currLine, openFileBuffer[currLine].length);
+        } else if(c == EditorKey.PAGE_UP) {
+            long numLinesToMove = cast(long)(0.8 * contentExtent.height);
+
+            long newLine = currLine - numLinesToMove;
+            if(newLine < 0) {
+                newLine = 0;
+            }
+            seekFilePos(newLine, currCol());
+        } else if(c == EditorKey.PAGE_DOWN) {
+            long numLinesToMove = cast(long)(0.8 * contentExtent.height);
+
+            ulong newLine = currLine() + numLinesToMove;
+            if(newLine > openFileBuffer.length) {
+                newLine = openFileBuffer.length;
+            }
+            seekFilePos(newLine, currCol());
         } else if(c == '\r') {
             dirtyFlag = true;
             insert(openFileBuffer, Row(openFileBuffer[currLine]._data[currCol..$]), currLine+1);

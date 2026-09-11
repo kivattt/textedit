@@ -96,6 +96,18 @@ EditorKey editorReadKeypress() {
                 case '~': return EditorKey.DELETE; // \x1b[3~
                 default: break;
             }
+        } else if(seq[0] == '[' && seq[1] == '5') {
+            seq ~= Terminal.getChar();
+            switch(seq[2]) {
+                case '~': return EditorKey.PAGE_UP; // \x1b[5~
+                default: break;
+            }
+        } else if(seq[0] == '[' && seq[1] == '6') {
+            seq ~= Terminal.getChar();
+            switch(seq[2]) {
+                case '~': return EditorKey.PAGE_DOWN; // \x1b[6~
+                default: break;
+            }
         } else if(seq[0] == '[') {
             switch (seq[1]) {
                 case 'A': return EditorKey.ARROW_UP;
