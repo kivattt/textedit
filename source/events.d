@@ -13,6 +13,9 @@ enum EditorKey : int
     DELETE = 1000, // Arbitrary number beyond the range of char
     HOME,
     END,
+    CTRL_HOME,
+    CTRL_END,
+
     ARROW_LEFT,
     ARROW_RIGHT,
     ARROW_UP,

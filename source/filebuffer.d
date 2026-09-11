@@ -259,6 +259,12 @@ public:
                 seekFilePos(currLine, oldlen);
             }
             doHighlighting(openFileBuffer, openFilePath.baseName);
+        } else if (c == EditorKey.CTRL_HOME) {
+            seekFilePos(0, 0);
+        } else if (c == EditorKey.CTRL_END) {
+            auto lastLine = openFileBuffer.length;
+            auto lastLineLength = openFileBuffer[lastLine-1].length;
+            seekFilePos(lastLine, lastLineLength);
         } else if (c == EditorKey.HOME) {
             seekFilePos(currLine, 0);
         } else if (c == EditorKey.END) {

@@ -86,6 +86,8 @@ EditorKey editorReadKeypress() {
                 case 'B': return EditorKey.CTRL_ARROW_DOWN;
                 case 'C': return EditorKey.CTRL_ARROW_RIGHT;
                 case 'D': return EditorKey.CTRL_ARROW_LEFT;
+                case 'H': return EditorKey.CTRL_HOME;
+                case 'F': return EditorKey.CTRL_END;
                 default: break;
             }
         } else if(seq[0] == '[' && seq[1] == '3') {
