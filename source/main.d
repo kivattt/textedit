@@ -88,8 +88,13 @@ EditorKey editorReadKeypress() {
                 case 'D': return EditorKey.CTRL_ARROW_LEFT;
                 default: break;
             }
-        }
-        else if(seq[0] == '[') {
+        } else if(seq[0] == '[' && seq[1] == '3') {
+            seq ~= Terminal.getChar();
+            switch(seq[2]) {
+                case '~': return EditorKey.DELETE; // \x1b[3~
+                default: break;
+            }
+        } else if(seq[0] == '[') {
             switch (seq[1]) {
                 case 'A': return EditorKey.ARROW_UP;
                 case 'B': return EditorKey.ARROW_DOWN;
@@ -100,6 +105,8 @@ EditorKey editorReadKeypress() {
         }
 
         return cast(EditorKey)'\x1b';
+    } else if (c == CTRL_KEY!'h') {
+        return EditorKey.BACKSPACE;
     } else {
         return cast(EditorKey)c;
     }

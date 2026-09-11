@@ -240,11 +240,23 @@ public:
             if(currCol>0) {
                 openFileBuffer[currLine].remove(currCol-1);
                 updateCursorPos(-1, 0);
-            } else if(currLine > 0) {
+            } else if(currLine > 0) { // Move the current line to the end of the previous line
                 auto oldlen = openFileBuffer[currLine-1].length;
                 openFileBuffer[currLine-1].append(openFileBuffer[currLine]);
                 remove(openFileBuffer, currLine);
                 seekFilePos(currLine-1, oldlen);
+            }
+            doHighlighting(openFileBuffer, openFilePath.baseName);
+        } else if(c == EditorKey.DELETE) {
+            dirtyFlag = true;
+            auto lineLength = openFileBuffer[currLine].length;
+            if(currCol < lineLength) {
+                openFileBuffer[currLine].remove(currCol);
+            } else if(currLine + 1 < openFileBuffer.length) { // Move the next line to the end of the current line
+                auto oldlen = lineLength;
+                openFileBuffer[currLine].append(openFileBuffer[currLine+1]);
+                remove(openFileBuffer, currLine+1);
+                seekFilePos(currLine, oldlen);
             }
             doHighlighting(openFileBuffer, openFilePath.baseName);
         } else if(c == '\r') {
