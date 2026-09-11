@@ -2,10 +2,16 @@ module events;
 
 // TODO: move from std.concurrency to custom eventqueue
 
+// Keycode numbers:
+//     Linux: read() syscall
+//     Windows: ReadConsoleInputW()
 enum EditorKey : int
 {
     BACKSPACE = 127,
-    ARROW_LEFT = 1000,
+
+    // Input sequences escaped with \x1b
+    DELETE = 1000, // Arbitrary number beyond the range of char
+    ARROW_LEFT,
     ARROW_RIGHT,
     ARROW_UP,
     ARROW_DOWN,
