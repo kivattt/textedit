@@ -30,8 +30,13 @@ public:
             doHighlighting(openFileBuffer, openFilePath.baseName);
         } else {
             openFileBuffer.length = 0;
+        }
+
+        if(openFileBuffer.length == 0) {
             openFileBuffer ~= Row("");
         }
+
+        assert(openFileBuffer.length > 0, "Empty file buffer");
     }
 
     void updateCursorPos(int x, int y) {
@@ -235,6 +240,16 @@ public:
             openFileBuffer[currLine].insert(cast(char)c, currCol);
             updateCursorPos(1, 0);
             doHighlighting(openFileBuffer, openFilePath.baseName);
+        } else if(c == EditorKey.TAB) {
+            dirtyFlag = true;
+            // HACK: Adds 4 spaces
+            openFileBuffer[currLine].insert(' ', currCol);
+            openFileBuffer[currLine].insert(' ', currCol);
+            openFileBuffer[currLine].insert(' ', currCol);
+            openFileBuffer[currLine].insert(' ', currCol);
+
+            updateCursorPos(4, 0);
+            doHighlighting(openFileBuffer, openFilePath.baseName);
         } else if(c == EditorKey.BACKSPACE) {
             dirtyFlag = true;
             if(currCol>0) {
@@ -259,6 +274,32 @@ public:
                 seekFilePos(currLine, oldlen);
             }
             doHighlighting(openFileBuffer, openFilePath.baseName);
+        } else if(c == EditorKey.CTRL_HOME) {
+            seekFilePos(0, 0);
+        } else if(c == EditorKey.CTRL_END) {
+            auto lastLine = openFileBuffer.length;
+            auto lastLineLength = openFileBuffer[lastLine-1].length;
+            seekFilePos(lastLine, lastLineLength);
+        } else if(c == EditorKey.HOME) {
+            seekFilePos(currLine, 0);
+        } else if(c == EditorKey.END) {
+            seekFilePos(currLine, openFileBuffer[currLine].length);
+        } else if(c == EditorKey.PAGE_UP) {
+            long numLinesToMove = cast(long)(0.8 * contentExtent.height);
+
+            long newLine = currLine - numLinesToMove;
+            if(newLine < 0) {
+                newLine = 0;
+            }
+            seekFilePos(newLine, currCol());
+        } else if(c == EditorKey.PAGE_DOWN) {
+            long numLinesToMove = cast(long)(0.8 * contentExtent.height);
+
+            ulong newLine = currLine() + numLinesToMove;
+            if(newLine > openFileBuffer.length) {
+                newLine = openFileBuffer.length;
+            }
+            seekFilePos(newLine, currCol());
         } else if(c == '\r') {
             dirtyFlag = true;
             insert(openFileBuffer, Row(openFileBuffer[currLine]._data[currCol..$]), currLine+1);

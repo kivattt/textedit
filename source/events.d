@@ -7,10 +7,18 @@ module events;
 //     Windows: ReadConsoleInputW()
 enum EditorKey : int
 {
+    TAB = 9,
     BACKSPACE = 127,
 
     // Input sequences escaped with \x1b
     DELETE = 1000, // Arbitrary number beyond the range of char
+    HOME,
+    END,
+    CTRL_HOME,
+    CTRL_END,
+    PAGE_UP,
+    PAGE_DOWN,
+
     ARROW_LEFT,
     ARROW_RIGHT,
     ARROW_UP,

@@ -86,6 +86,8 @@ EditorKey editorReadKeypress() {
                 case 'B': return EditorKey.CTRL_ARROW_DOWN;
                 case 'C': return EditorKey.CTRL_ARROW_RIGHT;
                 case 'D': return EditorKey.CTRL_ARROW_LEFT;
+                case 'H': return EditorKey.CTRL_HOME;
+                case 'F': return EditorKey.CTRL_END;
                 default: break;
             }
         } else if(seq[0] == '[' && seq[1] == '3') {
@@ -94,12 +96,26 @@ EditorKey editorReadKeypress() {
                 case '~': return EditorKey.DELETE; // \x1b[3~
                 default: break;
             }
+        } else if(seq[0] == '[' && seq[1] == '5') {
+            seq ~= Terminal.getChar();
+            switch(seq[2]) {
+                case '~': return EditorKey.PAGE_UP; // \x1b[5~
+                default: break;
+            }
+        } else if(seq[0] == '[' && seq[1] == '6') {
+            seq ~= Terminal.getChar();
+            switch(seq[2]) {
+                case '~': return EditorKey.PAGE_DOWN; // \x1b[6~
+                default: break;
+            }
         } else if(seq[0] == '[') {
             switch (seq[1]) {
                 case 'A': return EditorKey.ARROW_UP;
                 case 'B': return EditorKey.ARROW_DOWN;
                 case 'C': return EditorKey.ARROW_RIGHT;
                 case 'D': return EditorKey.ARROW_LEFT;
+                case 'H': return EditorKey.HOME;
+                case 'F': return EditorKey.END;
                 default: break;
             }
         }
