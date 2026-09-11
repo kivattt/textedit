@@ -119,7 +119,15 @@ public:
 
     Position getCursorPos() {
         // add offset from line number
-        return Position(cursorPos.x+getLineNumLength(), cursorPos.y);
+        auto tabOffset = 0;
+        assert(cursorPos.x <= openFileBuffer[currLine].length, "Cursor out of bounds");
+        for(int i = 0; i < cursorPos.x; i++) {
+            char c = openFileBuffer[currLine]._data[i];
+            if(c == '\t') {
+                tabOffset += 3;
+            }
+        }
+        return Position(tabOffset+cursorPos.x+getLineNumLength(), cursorPos.y);
     }
 
     void updateBufferSize(Extent extent) {
@@ -235,20 +243,10 @@ public:
         import events : EditorKey;
         import syntaxhighlighting;
         import std.path : baseName;
-        if(isPrintable(c)) {
+        if(isPrintable(c) || c == '\t') {
             dirtyFlag = true;
             openFileBuffer[currLine].insert(cast(char)c, currCol);
             updateCursorPos(1, 0);
-            doHighlighting(openFileBuffer, openFilePath.baseName);
-        } else if(c == EditorKey.TAB) {
-            dirtyFlag = true;
-            // HACK: Adds 4 spaces
-            openFileBuffer[currLine].insert(' ', currCol);
-            openFileBuffer[currLine].insert(' ', currCol);
-            openFileBuffer[currLine].insert(' ', currCol);
-            openFileBuffer[currLine].insert(' ', currCol);
-
-            updateCursorPos(4, 0);
             doHighlighting(openFileBuffer, openFilePath.baseName);
         } else if(c == EditorKey.BACKSPACE) {
             dirtyFlag = true;

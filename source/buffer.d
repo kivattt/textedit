@@ -171,7 +171,7 @@ public:
                 currColor = color;
             }
             if(data[i] == '\t') {
-                for(int j = 0; j < 4-(i%4); j++) {
+                for (int j = 0; j < 4; j++) {
                     ret ~= ' ';
                     len--;
                 }

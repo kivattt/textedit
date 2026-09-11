@@ -7,7 +7,6 @@ module events;
 //     Windows: ReadConsoleInputW()
 enum EditorKey : int
 {
-    TAB = 9,
     BACKSPACE = 127,
 
     // Input sequences escaped with \x1b
