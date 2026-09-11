@@ -100,6 +100,8 @@ EditorKey editorReadKeypress() {
                 case 'B': return EditorKey.ARROW_DOWN;
                 case 'C': return EditorKey.ARROW_RIGHT;
                 case 'D': return EditorKey.ARROW_LEFT;
+                case 'H': return EditorKey.HOME;
+                case 'F': return EditorKey.END;
                 default: break;
             }
         }

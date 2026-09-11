@@ -259,6 +259,10 @@ public:
                 seekFilePos(currLine, oldlen);
             }
             doHighlighting(openFileBuffer, openFilePath.baseName);
+        } else if (c == EditorKey.HOME) {
+            seekFilePos(currLine, 0);
+        } else if (c == EditorKey.END) {
+            seekFilePos(currLine, openFileBuffer[currLine].length);
         } else if(c == '\r') {
             dirtyFlag = true;
             insert(openFileBuffer, Row(openFileBuffer[currLine]._data[currCol..$]), currLine+1);

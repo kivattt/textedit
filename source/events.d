@@ -11,6 +11,8 @@ enum EditorKey : int
 
     // Input sequences escaped with \x1b
     DELETE = 1000, // Arbitrary number beyond the range of char
+    HOME,
+    END,
     ARROW_LEFT,
     ARROW_RIGHT,
     ARROW_UP,
